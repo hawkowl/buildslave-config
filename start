@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Pickup 'pip install --user binaries'.
+PATH=$PATH:$HOME/.local/bin
+
+twistd \
+    --logfile ~/log/twistd.log \
+    --pidfile ~/run/twistd.pid \
+    --rundir ~/run/ \
+    --python ~/run/buildbot.tac
