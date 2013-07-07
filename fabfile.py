@@ -57,11 +57,10 @@ class Buildslave(service.Service):
             'gcc',
             'subversion',
             'python-pip',
+            'texlive-latex',
             ])
 
         # rpmbuild
-        # pydoctor
-        # latex
         # subunit
 
         # Create home directory in default dir to avoid selinux issues.
