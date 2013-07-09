@@ -3,6 +3,8 @@
 # Pickup 'pip install --user binaries'.
 PATH=$PATH:$HOME/.local/bin
 
+export BZR_PLUGIN_PATH=$(python -c 'import site; print site.USER_SITE')/bzrlib/plugins
+
 twistd \
     --logfile ~/log/twistd.log \
     --pidfile ~/run/twistd.pid \
