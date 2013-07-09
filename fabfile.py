@@ -1,4 +1,5 @@
 from os import path
+import imp
 from cStringIO import StringIO
 
 from fabric.api import run, put, settings, env
@@ -13,8 +14,26 @@ from braid import config
 
 __all__ = ['config']
 
-env.python = 'system'
 
+def loadPrivateData(base=__file__):
+    privateDir = FilePath(base).sibling('private')
+    privateFile = privateDir.child('private.py')
+    if privateFile.exists():
+         return imp.load_source('private',
+                                privateFile.path,
+                                privateFile.open())
+    else:
+        return None
+
+
+def passwordFromPrivateData(slaveName):
+    private = loadPrivateData()
+    if private:
+        return private.bot_info[slaveName][0]
+    else:
+        return None
+
+env.python = 'system'
 
 packageEquivs = {
         'fedora': {
@@ -39,10 +58,15 @@ class Buildslave(service.Service):
                 hostInfo,
                 buildmaster='buildbot.twistedmatrix.com',
                 port=9987,
-                adminInfo='Tom Prince <buildbot@twistedmatrix.com>'):
+                adminInfo='Tom Prince <buildbot@twistedmatrix.com>',
+                password=None):
         """
         Install buildslave
         """
+
+        if password is None:
+            password = passwordFromPrivateData(slavename)
+
         # Twisted's dependencies
         # (ubuntu/debian version)
         package.install([
@@ -119,6 +143,9 @@ class Buildslave(service.Service):
 
             startFile = FilePath(__file__).sibling('start')
             put(startFile.path, path.join(self.binDir, 'start'), mode=0755)
+
+            if password is not None:
+                put(StringIO(password), path.join(self.runDir, 'slave.passwd'), mode=0700)
 
 
 from braid.tasks import addTasks
