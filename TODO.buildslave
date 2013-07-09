@@ -4,5 +4,4 @@ For buildslave:
 - fix slave.passwd
 - install pacakges all at once?
 - optionally pip install dependencies (for non-linux systmes like osx)
-- setenforce for fedora -- this has to do with using /srv
 - multicast firewall
