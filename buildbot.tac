@@ -1,6 +1,7 @@
 import os
 
 from twisted.application import service
+from twisted.python.filepath import FilePath
 from buildslave.bot import BuildSlave
 
 basedir = '.'
@@ -29,7 +30,7 @@ except ImportError:
 buildmaster_host = '%(buildmaster)s'
 port = %(port)d
 slavename = '%(slavename)s'
-passwd = open('slave.passwd').read().strip()
+passwd = FilePath(__file__).sibling('slave.passwd').getContent()
 keepalive = 600
 usepty = False
 umask = 0022
