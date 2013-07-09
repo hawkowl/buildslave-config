@@ -1,4 +1,4 @@
-import os
+from os import path
 from cStringIO import StringIO
 
 from fabric.api import run, put, settings, env
@@ -105,20 +105,21 @@ class Buildslave(service.Service):
                 ]), python='system')
 
             tacFile = FilePath(__file__).sibling('buildbot.tac')
-            upload_template(tacFile.path, os.path.join(self.runDir, 'buildbot.tac'),
+            upload_template(tacFile.path, path.join(self.runDir, 'buildbot.tac'),
                     context={
                         'buildmaster': buildmaster,
                         'port': port,
                         'slavename': slavename,
                         })
 
-            infoPath = os.path.join(self.runDir, 'info')
+            infoPath = path.join(self.runDir, 'info')
             run('mkdir -p {}'.format(infoPath))
-            put(StringIO(adminInfo), os.path.join(infoPath, 'admin'))
-            put(StringIO(hostInfo), os.path.join(infoPath, 'host'))
+            put(StringIO(adminInfo), path.join(infoPath, 'admin'))
+            put(StringIO(hostInfo), path.join(infoPath, 'host'))
 
             startFile = FilePath(__file__).sibling('start')
-            put(startFile.path, os.path.join(self.binDir, 'start'), mode=0755)
+            put(startFile.path, path.join(self.binDir, 'start'), mode=0755)
+
 
 from braid.tasks import addTasks
 addTasks(globals(), Buildslave('buildslave').getTasks())
