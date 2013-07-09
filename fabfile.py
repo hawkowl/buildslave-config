@@ -19,13 +19,15 @@ env.python = 'system'
 packageEquivs = {
         'fedora': {
             'python-gmpy': 'gmpy',
-            'python-subvertpy': 'subvertpy',
             'python-gobject': 'pygobject2',
             'python-soappy': 'SOAPpy',
             'python-dev': 'python-devel',
+            'g++': 'gcc-c++',
         },
-        'debian': {},
-        }
+        'debian': {
+            'texlive': 'texlive-latex-base',
+        },
+}
 
 
 class Buildslave(service.Service):
@@ -54,10 +56,32 @@ class Buildslave(service.Service):
             #'python-subunit',
             'python-dev',
             'bzr',
+            'git',
             'gcc',
             'subversion',
+            'python-subvertpy',
             'python-pip',
-            'texlive-latex',
+            # cpython translator
+            'make',
+            'gmp-devel'
+            # subunit
+            'cppunit-devel'
+            'check-devel',
+            'g++',
+            'perl-devel',
+            # Docs
+            'texlive',
+            'netpbm-progs',
+            'bzip2',
+            # For pypy translator
+            'hg',
+            'libffi-devel',
+            'openssl-devel',
+            'ncurses-devel',
+            'expat-devel',
+            'sqlite-devel',
+            'zlib-devel',
+            'bzip2-devel',
             ])
 
         # rpmbuild
@@ -76,7 +100,8 @@ class Buildslave(service.Service):
                 'pep8==1.3.3',
                 'pylint==0.25.1',
                 'logilab-astng==0.23.1',
-                'logilab-common==0.59.0'
+                'logilab-common==0.59.0',
+                'pyflakes',
                 ]), python='system')
 
             tacFile = FilePath(__file__).sibling('buildbot.tac')
