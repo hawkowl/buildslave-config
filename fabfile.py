@@ -54,8 +54,8 @@ class Buildslave(service.Service):
     logDir = '~/run'
 
     def task_install(self,
-                slavename,
-                hostInfo,
+                slavename=None,
+                hostInfo=None,
                 buildmaster='buildbot.twistedmatrix.com',
                 port=9987,
                 adminInfo='Tom Prince <buildbot@twistedmatrix.com>',
@@ -63,6 +63,9 @@ class Buildslave(service.Service):
         """
         Install buildslave
         """
+
+        if slavename is None:
+            slavename = env.slaves[env.host]
 
         if password is None:
             password = passwordFromPrivateData(slavename)
@@ -139,6 +142,8 @@ class Buildslave(service.Service):
             infoPath = path.join(self.runDir, 'info')
             run('mkdir -p {}'.format(infoPath))
             put(StringIO(adminInfo), path.join(infoPath, 'admin'))
+            if hostInfo is None:
+                hostInfo = run('uname -a', combine_stderr=False)
             put(StringIO(hostInfo), path.join(infoPath, 'host'))
 
             startFile = FilePath(__file__).sibling('start')
