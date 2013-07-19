@@ -42,9 +42,23 @@ packageEquivs = {
             'python-soappy': 'SOAPpy',
             'python-dev': 'python-devel',
             'g++': 'gcc-c++',
+            'python-openssl': 'pyOpenSSL',
         },
         'debian': {
             'texlive': 'texlive-latex-base',
+            'gmp-devel': 'libgmp3-dev',
+            'cppunit-devel': 'libcppunit-dev',
+            'perl-devel': 'libperl-dev',
+            'netpbm-progs': 'netpbm',
+            'hg': 'mercurial',
+            'libffi-devel': 'libffi-dev',
+            'openssl-devel': 'libssl-dev',
+            'ncurses-devel': 'libncurses5-dev',
+            'expat-devel': 'libexpat1-dev',
+            'sqlite-devel': 'libsqlite3-dev',
+            'zlib-devel': 'zlib1g-dev',
+            'bzip2-devel': 'libbz2-dev',
+            'check-devel': 'check',
         },
 }
 
@@ -80,7 +94,8 @@ class Buildslave(service.Service):
             'python-gmpy',
             'python-gobject',
             'python-soappy',
-            #'python-subunit',
+            'python-subunit',
+            'python-openssl',
             'python-dev',
             'bzr',
             'git',
@@ -90,9 +105,9 @@ class Buildslave(service.Service):
             'python-pip',
             # cpython translator
             'make',
-            'gmp-devel'
+            'gmp-devel',
             # subunit
-            'cppunit-devel'
+            'cppunit-devel',
             'check-devel',
             'g++',
             'perl-devel',
@@ -128,6 +143,7 @@ class Buildslave(service.Service):
                 'pylint==0.25.1',
                 'logilab-astng==0.23.1',
                 'logilab-common==0.59.0',
+                #'https://launchpad.net/pyflakes/main/0.5.0/+download/pyflakes-0.5.0.tar.gz',
                 'pyflakes',
                 ]), python='system')
 
