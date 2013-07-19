@@ -86,6 +86,7 @@ class Buildslave(service.Service):
 
         # Twisted's dependencies
         # (ubuntu/debian version)
+        package.update()
         package.install([
             packageEquivs[info.distroFamily()].get(pkg, pkg)
             for pkg in
