@@ -170,5 +170,13 @@ class Buildslave(service.Service):
                 put(StringIO(password), path.join(self.runDir, 'slave.passwd'), mode=0700)
 
 
+    def task_iptables(self):
+        """
+        Run iptables.
+        """
+        env.user = env.slaves[env.host][2]
+        sudo('iptables -I INPUT --dest 224.0.0.0/4 -j ACCEPT')
+
+
 from braid.tasks import addTasks
 addTasks(globals(), Buildslave('buildslave').getTasks())
