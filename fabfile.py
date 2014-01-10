@@ -152,6 +152,7 @@ class Buildslave(service.Service):
                 'logilab-common==0.59.0',
                 #'https://launchpad.net/pyflakes/main/0.5.0/+download/pyflakes-0.5.0.tar.gz',
                 'pyflakes',
+                'cffi',
                 ]), pip=pipPath)
 
             tacFile = FilePath(__file__).sibling('buildbot.tac')
