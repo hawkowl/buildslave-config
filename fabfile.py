@@ -1,8 +1,11 @@
+"""
+"""
 from os import path
 import imp
 from cStringIO import StringIO
 
 from fabric.api import run, put, settings, env
+from braid.api import sudo
 from fabric.contrib.files import upload_template
 
 from braid import package, pip, users, info
