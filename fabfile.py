@@ -120,6 +120,7 @@ class Buildslave(service.Service):
             'texlive',
             'netpbm-progs',
             'bzip2',
+            'python-sphinx',
             # For pypy translator
             'hg',
             'libffi-devel',
