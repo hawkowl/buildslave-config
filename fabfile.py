@@ -67,6 +67,8 @@ packageEquivs = {
 
 
 class Buildslave(service.Service):
+    """
+    """
 
     logDir = '~/run'
 
