@@ -144,8 +144,8 @@ class Buildslave(service.Service):
         with settings(user='buildslave'):
             pip.install('bzr-svn', pip=pipPath)
             pip.install('buildbot-slave', pip=pipPath)
-            pip.install('--upgrade --force-reinstall bzr+https://code.launchpad.net/~mwhudson/pydoctor/dev@600#egg=pydoctor', pip=pipPath)
             pip.install(" ".join([
+                'pydoctor==0.5b2',
                 'pep8==1.3.3',
                 'pylint==0.25.1',
                 'logilab-astng==0.23.1',
