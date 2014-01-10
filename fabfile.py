@@ -79,7 +79,8 @@ class Buildslave(service.Service):
         """
 
         if slavename is None:
-            slavename = env.slaves[env.host]
+            slavename = env.slaves[env.host][0]
+        env.user = env.slaves[env.host][2]
 
         if password is None:
             password = passwordFromPrivateData(slavename)
@@ -133,12 +134,17 @@ class Buildslave(service.Service):
         # Create home directory in default dir to avoid selinux issues.
         users.createService(self.serviceUser, base=None, groups=[])
         users.uploadLaunchpadKeys(self.serviceUser, 'tom.prince')
+
+        pipPath = '~/.local/bin/pip'
+        with settings(user='buildslave'):
+            pip.bootstrap(pipPath)
+
         self.bootstrap(python='system')
 
         with settings(user='buildslave'):
-            pip.install('bzr-svn', python='system')
-            pip.install('buildbot-slave', python='system')
-            pip.install('--upgrade --force-reinstall bzr+https://code.launchpad.net/~mwhudson/pydoctor/dev@600#egg=pydoctor', python='system')
+            pip.install('bzr-svn', pip=pipPath)
+            pip.install('buildbot-slave', pip=pipPath)
+            pip.install('--upgrade --force-reinstall bzr+https://code.launchpad.net/~mwhudson/pydoctor/dev@600#egg=pydoctor', pip=pipPath)
             pip.install(" ".join([
                 'pep8==1.3.3',
                 'pylint==0.25.1',
@@ -146,7 +152,7 @@ class Buildslave(service.Service):
                 'logilab-common==0.59.0',
                 #'https://launchpad.net/pyflakes/main/0.5.0/+download/pyflakes-0.5.0.tar.gz',
                 'pyflakes',
-                ]), python='system')
+                ]), pip=pipPath)
 
             tacFile = FilePath(__file__).sibling('buildbot.tac')
             upload_template(tacFile.path, path.join(self.runDir, 'buildbot.tac'),
