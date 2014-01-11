@@ -195,5 +195,36 @@ class Buildslave(service.Service):
         sudo('iptables -I INPUT --dest 224.0.0.0/4 -j ACCEPT')
 
 
+    def task_tapdevice(self):
+        """
+        Create tap devices for tests.
+        """
+        self.setUser()
+
+        name = "twtest"
+
+        # A tap device without protocol information
+        sudo('ip tuntap add dev tap-{} mode tap user buildslave'.format(name))
+        sudo('ip link set up dev tap-{}'.format(name))
+        sudo('ip addr add 172.16.0.1/24 dev tap-{}'.format(name))
+        sudo('ip neigh add 172.16.0.2 lladdr de:ad:be:ef:ca:fe dev tap-{}'.format(name))
+        sudo('iptables -I INPUT --dest 172.16.0.1 -j ACCEPT')
+
+        # A tap device with protocol information
+        sudo('ip tuntap add dev tap-{}-pi mode tap user buildslave'.format(name))
+        sudo('ip link set up dev tap-{}-pi'.format(name))
+        sudo('ip addr add 172.16.1.1/24 dev tap-{}-pi'.format(name))
+        sudo('ip neigh add 172.16.1.2 lladdr de:ad:ca:fe:be:ef dev tap-{}-pi'.format(name))
+        sudo('iptables -I INPUT --dest 172.16.1.1 -j ACCEPT')
+
+        # A tun device without protocol information
+        sudo('ip tuntap add dev tun-{} mode tun user buildslave'.format(name))
+        sudo('ip link set up dev tun-{}'.format(name))
+
+        # A tun device with protocol information
+        sudo('ip tuntap add dev tun-{}-pi mode tun user buildslave'.format(name))
+        sudo('ip link set up dev tun-{}-pi'.format(name))
+
+
 from braid.tasks import addTasks
 addTasks(globals(), Buildslave('buildslave').getTasks())
