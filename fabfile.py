@@ -72,6 +72,10 @@ class Buildslave(service.Service):
 
     logDir = '~/run'
 
+    def setUser(self, slavename=None):
+        env.user = env.slaves[env.host][2]
+
+
     def task_install(self,
                 slavename=None,
                 hostInfo=None,
@@ -83,9 +87,9 @@ class Buildslave(service.Service):
         Install buildslave
         """
 
+        self.setUser(slavename)
         if slavename is None:
             slavename = env.slaves[env.host][0]
-        env.user = env.slaves[env.host][2]
 
         if password is None:
             password = passwordFromPrivateData(slavename)
@@ -187,7 +191,7 @@ class Buildslave(service.Service):
         """
         Run iptables.
         """
-        env.user = env.slaves[env.host][2]
+        self.setUser()
         sudo('iptables -I INPUT --dest 224.0.0.0/4 -j ACCEPT')
 
 
