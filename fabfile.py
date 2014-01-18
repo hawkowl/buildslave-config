@@ -161,7 +161,7 @@ class Buildslave(service.Service):
                 'logilab-astng==0.23.1',
                 'logilab-common==0.59.0',
                 #'https://launchpad.net/pyflakes/main/0.5.0/+download/pyflakes-0.5.0.tar.gz',
-                'pyflakes',
+                'pyflakes==0.7.3',
                 'cffi',
                 ]), pip=pipPath)
 
