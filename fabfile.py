@@ -126,7 +126,6 @@ class Buildslave(service.Service):
             'texlive',
             'netpbm-progs',
             'bzip2',
-            'python-sphinx',
             # For pypy translator
             'hg',
             'libffi-devel',
@@ -163,6 +162,7 @@ class Buildslave(service.Service):
                 #'https://launchpad.net/pyflakes/main/0.5.0/+download/pyflakes-0.5.0.tar.gz',
                 'pyflakes==0.7.3',
                 'cffi',
+                'sphinx',
                 ]), pip=pipPath)
 
             tacFile = FilePath(__file__).sibling('buildbot.tac')
